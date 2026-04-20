@@ -1,0 +1,23 @@
+;;; init.el --- {{ .identity.username }}'s Emacs configuration -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;
+;; A compact entrypoint that loads the real config from smaller modules.
+
+;;; Code:
+
+(setq user-full-name {{ .identity.name | quote }}
+      user-mail-address {{ .identity.email | quote }})
+
+(add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
+
+(require 'jim-core)
+(require 'jim-packages)
+(require 'jim-ui)
+(require 'jim-completion)
+(require 'jim-git)
+(require 'jim-languages)
+(require 'jim-org)
+
+(provide 'init)
+;;; init.el ends here

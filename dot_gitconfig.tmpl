@@ -1,0 +1,10 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = {{ .identity.name }}
+	email = {{ .identity.email }}
+[alias]
+	lol = log --graph --decorate --oneline --abbrev-commit
+	lola = log --graph --decorate --oneline --abbrev-commit --all
+[pull]
+	rebase = true

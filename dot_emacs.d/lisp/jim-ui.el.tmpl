@@ -1,0 +1,72 @@
+;;; jim-ui.el --- UI and visual packages -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;
+;; Visual polish, theme loading, and shell-path integration.
+
+;;; Code:
+
+(use-package exec-path-from-shell
+  :if (memq system-type '(darwin gnu/linux berkeley-unix))
+  :config
+  (when (or (daemonp) (display-graphic-p))
+    (if (eq system-type 'darwin)
+        (dolist (variable '("LANG" "LC_ALL" "SSH_AUTH_SOCK"))
+          (ignore-errors
+            (exec-path-from-shell-copy-env variable)))
+      (exec-path-from-shell-initialize)
+      (dolist (variable '("LANG" "LC_ALL" "SSH_AUTH_SOCK"))
+        (ignore-errors
+          (exec-path-from-shell-copy-env variable))))))
+
+(use-package doom-themes
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  (load-theme '{{ .emacs.theme.default }} t)
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
+
+(use-package badwolf-theme
+  :defer t)
+
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode)
+  :custom
+  (doom-modeline-height 28)
+  (doom-modeline-icon nil)
+  (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+  (doom-modeline-minor-modes nil)
+  (doom-modeline-buffer-encoding nil))
+
+(use-package which-key
+  :defer 1
+  :config
+  (which-key-mode 1))
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package hl-todo
+  :hook ((prog-mode . hl-todo-mode)
+         (text-mode . hl-todo-mode)))
+
+(use-package line-reminder
+  :custom
+  (line-reminder-show-option 'indicators)
+  (line-reminder-fringe-placed 'left-fringe)
+  :hook ((prog-mode . line-reminder-mode)
+         (conf-mode . line-reminder-mode)
+         (makefile-mode . line-reminder-mode)
+         (makefile-gmake-mode . line-reminder-mode)))
+
+(use-package indent-guide
+  :custom
+  (indent-guide-delay 0.1)
+  (indent-guide-recursive nil)
+  :hook ((prog-mode . indent-guide-mode)
+         (makefile-mode . indent-guide-mode)
+         (makefile-gmake-mode . indent-guide-mode)))
+
+(provide 'jim-ui)
+;;; jim-ui.el ends here

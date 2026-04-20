@@ -1,0 +1,40 @@
+#!/bin/bash
+
+{{ if and (ne .chezmoi.os "darwin") (ne .chezmoi.os "linux") -}}
+exit 0
+{{ else -}}
+set -euo pipefail
+
+brew_bin=""
+for candidate in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+    if [ -x "$candidate" ]; then
+        brew_bin="$candidate"
+        break
+    fi
+done
+
+if [ -z "$brew_bin" ]; then
+    exit 0
+fi
+
+eval "$("$brew_bin" shellenv)"
+
+"$brew_bin" bundle --file=/dev/stdin <<'EOF'
+{{- $osPackages := get .packages .chezmoi.os }}
+{{- with (get $osPackages "taps") }}
+{{- range . }}
+tap {{ . | quote }}
+{{- end }}
+{{- end }}
+{{- with (get $osPackages "brews") }}
+{{- range . }}
+brew {{ . | quote }}
+{{- end }}
+{{- end }}
+{{- with (get $osPackages "casks") }}
+{{- range . }}
+cask {{ . | quote }}
+{{- end }}
+{{- end }}
+EOF
+{{ end -}}

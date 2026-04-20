@@ -1,0 +1,4 @@
+# Managed by chezmoi.
+--theme=ansi
+--style=numbers,changes,header
+--tabs=4

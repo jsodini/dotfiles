@@ -1,0 +1,63 @@
+identity:
+  username: jim
+  name: James Sodini
+  email: james@sodini.io
+packages:
+  darwin:
+    taps:
+      - d12frosted/emacs-plus
+      - jandedobbeleer/oh-my-posh
+    brews:
+      - ack
+      - bat
+      - fish
+      - d12frosted/emacs-plus/emacs-plus
+      - fd
+      - fastfetch
+      - htop
+      - jandedobbeleer/oh-my-posh/oh-my-posh
+      - ripgrep
+    casks:
+      - font-meslo-lg-nerd-font
+  linux:
+    taps:
+      - jandedobbeleer/oh-my-posh
+    brews:
+      - ack
+      - bat
+      - fish
+      - fd
+      - fastfetch
+      - htop
+      - jandedobbeleer/oh-my-posh/oh-my-posh
+      - ripgrep
+    casks: []
+fish:
+  plugins:
+    - jorgebucaran/fisher
+emacs:
+  theme:
+    default: doom-ayu-dark
+  packages:
+    - use-package
+    - exec-path-from-shell
+    - doom-themes
+    - badwolf-theme
+    - doom-modeline
+    - vertico
+    - orderless
+    - corfu
+    - cape
+    - marginalia
+    - consult
+    - embark
+    - embark-consult
+    - which-key
+    - rainbow-delimiters
+    - hl-todo
+    - line-reminder
+    - indent-guide
+    - magit
+    - treesit-auto
+    - swift-mode
+    - org-modern

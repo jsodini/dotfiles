@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -euo pipefail
+
+fish_bin=""
+for candidate in /opt/homebrew/bin/fish /usr/local/bin/fish; do
+    if [ -x "$candidate" ]; then
+        fish_bin="$candidate"
+        break
+    fi
+done
+
+if [ -z "$fish_bin" ] && command -v fish >/dev/null 2>&1; then
+    fish_bin="$(command -v fish)"
+fi
+
+if [ -z "$fish_bin" ]; then
+    exit 0
+fi
+
+"$fish_bin" -c '
+if not functions -q fisher
+    curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
+    fisher install jorgebucaran/fisher
+end
+
+fisher update
+'
+
+# Re-run this script when the managed plugin set changes.
+{{- range .fish.plugins }}
+# plugin: {{ . }}
+{{- end }}

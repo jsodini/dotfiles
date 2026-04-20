@@ -1,0 +1,40 @@
+#!/bin/bash
+
+{{ if ne .chezmoi.os "darwin" -}}
+exit 0
+{{ else -}}
+set -euo pipefail
+
+brew_bin=""
+for candidate in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [ -x "$candidate" ]; then
+        brew_bin="$candidate"
+        break
+    fi
+done
+
+if [ -z "$brew_bin" ]; then
+    echo "brew is required but was not found" >&2
+    exit 1
+fi
+
+eval "$("$brew_bin" shellenv)"
+
+if "$brew_bin" list --versions emacs-plus >/dev/null 2>&1; then
+    exit 0
+fi
+
+if ! "$brew_bin" list --versions emacs >/dev/null 2>&1; then
+    exit 0
+fi
+
+dependents="$("$brew_bin" uses --installed emacs || true)"
+if [ -n "$dependents" ]; then
+    echo "cannot replace Homebrew emacs with emacs-plus automatically" >&2
+    echo "installed formulae depending on emacs:" >&2
+    echo "$dependents" >&2
+    exit 1
+fi
+
+"$brew_bin" uninstall emacs
+{{ end -}}

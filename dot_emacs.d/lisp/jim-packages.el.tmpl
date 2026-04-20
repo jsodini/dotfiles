@@ -1,0 +1,66 @@
+;;; jim-packages.el --- Declarative package management -*- lexical-binding: t; -*-
+
+;;; Commentary:
+;;
+;; Keep third-party packages declared in one place and let package.el
+;; install anything missing.
+
+;;; Code:
+
+(require 'package)
+(require 'seq)
+
+(setq package-archives
+      '(("gnu" . "https://elpa.gnu.org/packages/")
+        ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+        ("melpa" . "https://melpa.org/packages/"))
+      package-archive-priorities
+      '(("gnu" . 10)
+        ("nongnu" . 7)
+        ("melpa" . 5)))
+
+(package-initialize)
+(package-activate-all)
+
+(defconst jim/package-list
+  '(
+{{- range .emacs.packages }}
+    {{ . }}
+{{- end }}
+    )
+  "Third-party packages that should be present on this machine.")
+
+(setq package-selected-packages jim/package-list)
+
+(defun jim/refresh-package-load-paths ()
+  "Make installed package directories visible to `require' and themes."
+  (dolist (entry package-alist)
+    (let* ((desc (cadr entry))
+           (dir (and desc (package-desc-dir desc))))
+      (when dir
+        (add-to-list 'load-path dir)
+        (add-to-list 'custom-theme-load-path dir)))))
+
+(defun jim/missing-packages ()
+  "Return the subset of `jim/package-list' that is not installed."
+  (seq-remove #'package-installed-p jim/package-list))
+
+(defun jim/sync-packages (&optional no-confirm)
+  "Install packages missing from `jim/package-list'.
+When NO-CONFIRM is non-nil, install without prompting."
+  (let ((missing (jim/missing-packages)))
+    (when missing
+      (package-refresh-contents)
+      (package-install-selected-packages (or no-confirm noninteractive)))))
+
+(jim/sync-packages)
+(package-activate-all)
+(jim/refresh-package-load-paths)
+
+(require 'use-package)
+
+(setq use-package-always-ensure nil
+      use-package-expand-minimally t)
+
+(provide 'jim-packages)
+;;; jim-packages.el ends here

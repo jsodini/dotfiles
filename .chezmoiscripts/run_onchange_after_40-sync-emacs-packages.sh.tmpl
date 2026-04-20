@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+# Rendered from the declarative Emacs package list so chezmoi reruns this
+# script whenever the package set changes.
+{{- range .emacs.packages }}
+# package: {{ . }}
+{{- end }}
+
+if ! command -v emacs >/dev/null 2>&1; then
+  exit 0
+fi
+
+emacs --batch -Q --load "$HOME/.emacs.d/init.el" \
+  --eval '(princ "emacs-packages-ok\n")'

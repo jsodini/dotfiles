@@ -1,0 +1,75 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "blocks": [
+    {
+      "alignment": "left",
+      "segments": [
+        {
+          "background": "#0077c2",
+          "foreground": "#ffffff",
+          "leading_diamond": "\ue0b6",
+          "style": "diamond",
+          "template": " {{ .Name }} {{ .UserName }} ",
+          "trailing_diamond": "\ue0b0",
+          "type": "shell",
+          "options": {
+            "mapped_shell_names": {
+              "bash": "\uef4a",
+              "fish": "\udb80\ude3a",
+              "nu": "\udb82\udc88",
+              "pwsh": "\uebc7",
+              "zsh": "\ue795"
+            }
+          }
+        },
+        {
+          "background": "#e05d65",
+          "foreground": "#ffffff",
+          "powerline_symbol": "\ue0b0",
+          "style": "powerline",
+          "template": " {{ if .WSL }}\ue712 {{ end }}{{ .Icon }} {{ .HostName }} ",
+          "type": "os"
+        },
+        {
+          "background": "#ff914d",
+          "foreground": "#ffffff",
+          "powerline_symbol": "\ue0b0",
+          "options": {
+            "folder_separator_icon": " \ue0b1 ",
+            "home_icon": "~",
+            "style": "folder"
+          },
+          "style": "powerline",
+          "template": " \uf07b {{ .Path }} ",
+          "type": "path"
+        },
+        {
+          "background": "#7cb342",
+          "foreground": "#ffffff",
+          "powerline_symbol": "\ue0b0",
+          "style": "powerline",
+          "template": " \ue725 {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }} ",
+          "type": "git"
+        },
+        {
+          "background": "#00897b",
+          "background_templates": [
+            "{{ if gt .Code 0 }}#e91e63{{ end }}"
+          ],
+          "foreground": "#ffffff",
+          "options": {
+            "always_enabled": true
+          },
+          "powerline_symbol": "\ue0b0",
+          "style": "powerline",
+          "template": " {{ if gt .Code 0 }}\u2717{{ else }}\u2713{{ end }} ",
+          "type": "status"
+        }
+      ],
+      "type": "prompt"
+    }
+  ],
+  "console_title_template": "{{ .Shell }} in {{ .Folder }}",
+  "final_space": true,
+  "version": 4
+}
