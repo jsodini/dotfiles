@@ -1,0 +1,105 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+  "logo": {
+{{- if eq .chezmoi.os "darwin" }}
+    "source": "macOS2",
+{{- end }}
+    "type": "small",
+    "padding": {
+      "right": 2
+    }
+  },
+  "display": {
+    "showErrors": false,
+    "separator": " -> ",
+    "color": {
+      "keys": "blue",
+      "title": "cyan"
+    },
+    "key": {
+      "width": 12
+    }
+  },
+  "modules": [
+    {
+      "type": "title",
+      "color": {
+        "user": "green",
+        "at": "blue",
+        "host": "green"
+      }
+    },
+    "separator",
+    {
+      "type": "custom",
+      "format": "{#39}System"
+    },
+    {
+      "type": "os",
+      "key": "OS"
+    },
+    {
+      "type": "kernel",
+      "key": "Kernel"
+    },
+    {
+      "type": "uptime",
+      "key": "Uptime"
+    },
+    {
+      "type": "packages",
+      "key": "Packages"
+    },
+    "break",
+    {
+      "type": "custom",
+      "format": "{#39}Hardware"
+    },
+    {
+      "type": "host",
+      "key": "Host"
+    },
+    {
+      "type": "cpu",
+      "key": "CPU",
+      "showPeCoreCount": true,
+      "temp": true,
+      "format": "{name} ({core-types}) @ {freq-max}{?temperature} / {temperature}{?}"
+    },
+    {
+      "type": "gpu",
+      "key": "GPU",
+      "driverSpecific": true,
+      "temp": true,
+      "format": "{name} ({core-count}){?frequency} @ {frequency}{?} [{type}]{?temperature} / {temperature}{?}"
+    },
+    {
+      "type": "physicalmemory",
+      "key": "RAM"
+    },
+    {
+      "type": "display",
+      "key": "Display"
+    },
+    "break",
+    {
+      "type": "custom",
+      "format": "{#39}Storage & Power"
+    },
+    {
+      "type": "disk",
+      "key": "System",
+      "folders": "/"
+    },
+    {
+      "type": "battery",
+      "key": "Battery",
+      "temp": true,
+      "format": "{capacity} [{status}]{?temperature} - {temperature}{?}"
+    },
+    {
+      "type": "poweradapter",
+      "key": "Power"
+    }
+  ]
+}
