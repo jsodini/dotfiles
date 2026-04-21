@@ -74,6 +74,24 @@ Language support is intentionally lightweight:
 `ripgrep` and `fd` are installed through Homebrew so Consult's project/file
 search commands work well out of the box.
 
+Vim is also configured as a first-class terminal editor. On macOS, `macvim`
+is installed through Homebrew and provides the `vim` CLI plus the native
+MacVim app. On Linux, plain `vim` is installed through Linuxbrew.
+
+The Vim setup lives in `dot_vimrc`, `dot_gvimrc`, and `dot_vim/ftplugin/`.
+It stays intentionally plugin-free for fast startup, but includes persistent
+undo, search/navigation defaults, GUI font tuning for MacVim, and filetype
+overrides for Makefiles, Markdown, and Git commit messages.
+
+Editor intent is split like this:
+
+- `EDITOR=vim` for terminal editing and tools like Git or crontab
+- `VISUAL=code --wait` when VS Code is available, otherwise `vim`
+- `TERMINAL_CODE_EDITOR=emacs -nw` for terminal coding sessions
+
+Those defaults are exported from `dot_profile.tmpl`, `dot_zshenv.tmpl`, and
+`dot_config/fish/config.fish`, and Git also sets `core.editor=vim`.
+
 CLI defaults are also managed where it helps:
 
 - `bat` uses a shared config in `dot_config/bat/config`

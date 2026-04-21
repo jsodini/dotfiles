@@ -1,0 +1,10 @@
+export EDITOR=vim
+export GIT_EDITOR="$EDITOR"
+export TERMINAL_EDITOR="$EDITOR"
+export TERMINAL_CODE_EDITOR='emacs -nw'
+
+if command -v code >/dev/null 2>&1; then
+  export VISUAL='code --wait'
+else
+  export VISUAL="$EDITOR"
+fi

@@ -16,9 +16,11 @@ packages:
       - fastfetch
       - htop
       - jandedobbeleer/oh-my-posh/oh-my-posh
+      - macvim
       - ripgrep
     casks:
       - font-meslo-lg-nerd-font
+      - visual-studio-code
   linux:
     taps:
       - jandedobbeleer/oh-my-posh
@@ -31,6 +33,7 @@ packages:
       - htop
       - jandedobbeleer/oh-my-posh/oh-my-posh
       - ripgrep
+      - vim
     casks: []
 fish:
   plugins:

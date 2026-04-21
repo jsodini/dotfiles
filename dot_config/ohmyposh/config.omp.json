@@ -62,17 +62,18 @@
           }
         },
         {
-          "background": "#00897b",
+          "background": "#5f87ff",
           "background_templates": [
             "{{ if gt .Code 0 }}#e91e63{{ end }}"
           ],
           "foreground": "#ffffff",
+          "leading_diamond": "<transparent,transparent> </><transparent,background>\ue0b0</>",
           "options": {
             "always_enabled": true
           },
-          "powerline_symbol": "\ue0b0",
-          "style": "powerline",
+          "style": "diamond",
           "template": " {{ if gt .Code 0 }}\u2717{{ else }}\u2713{{ end }} ",
+          "trailing_diamond": "\ue0b4",
           "type": "status"
         }
       ],
