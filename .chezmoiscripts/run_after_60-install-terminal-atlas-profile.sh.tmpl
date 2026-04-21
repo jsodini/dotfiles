@@ -1,0 +1,45 @@
+#!/bin/sh
+set -eu
+
+[ "$(uname -s)" = "Darwin" ] || exit 0
+
+profile_name="Atlas"
+profile_file="$HOME/.config/terminal/${profile_name}.terminal"
+
+[ -f "$profile_file" ] || exit 0
+
+tmp_plist="$(mktemp "${TMPDIR:-/tmp}/com.apple.Terminal.XXXXXX.plist")"
+cleanup() {
+    rm -f "$tmp_plist"
+}
+trap cleanup EXIT
+
+if ! defaults export com.apple.Terminal "$tmp_plist" >/dev/null 2>&1; then
+    plutil -create xml1 "$tmp_plist"
+fi
+
+if ! plutil -type "Window Settings" "$tmp_plist" >/dev/null 2>&1; then
+    plutil -insert "Window Settings" -xml '<dict/>' "$tmp_plist"
+fi
+
+profile_xml="$(plutil -convert xml1 -o - "$profile_file")"
+
+if plutil -type "Window Settings.${profile_name}" "$tmp_plist" >/dev/null 2>&1; then
+    plutil -replace "Window Settings.${profile_name}" -xml "$profile_xml" "$tmp_plist"
+else
+    plutil -insert "Window Settings.${profile_name}" -xml "$profile_xml" "$tmp_plist"
+fi
+
+if plutil -type "Startup Window Settings" "$tmp_plist" >/dev/null 2>&1; then
+    plutil -replace "Startup Window Settings" -string "$profile_name" "$tmp_plist"
+else
+    plutil -insert "Startup Window Settings" -string "$profile_name" "$tmp_plist"
+fi
+
+if plutil -type "Default Window Settings" "$tmp_plist" >/dev/null 2>&1; then
+    plutil -replace "Default Window Settings" -string "$profile_name" "$tmp_plist"
+else
+    plutil -insert "Default Window Settings" -string "$profile_name" "$tmp_plist"
+fi
+
+defaults import com.apple.Terminal "$tmp_plist"

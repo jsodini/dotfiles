@@ -45,11 +45,20 @@
         },
         {
           "background": "#7cb342",
+          "background_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#d4a72c{{ end }}"
+          ],
+          "foreground_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#1f2430{{ end }}"
+          ],
           "foreground": "#ffffff",
           "powerline_symbol": "\ue0b0",
           "style": "powerline",
-          "template": " \ue725 {{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }} ",
-          "type": "git"
+          "template": " \ue725 {{ .HEAD }}{{ if and .BranchStatus (ne .BranchStatus \"≡\") }} {{ .BranchStatus }}{{ end }}{{ if and (not .Working.Changed) (not .Staging.Changed) }} ✓{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }} ",
+          "type": "git",
+          "options": {
+            "fetch_status": true
+          }
         },
         {
           "background": "#00897b",

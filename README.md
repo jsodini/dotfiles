@@ -79,6 +79,12 @@ CLI defaults are also managed where it helps:
 - `bat` uses a shared config in `dot_config/bat/config`
 - `fastfetch` uses a cross-platform config in `dot_config/fastfetch/config.jsonc`
 
+On macOS, the custom Terminal.app `Atlas` profile is tracked as
+`dot_config/terminal/Atlas.terminal` and merged back into Terminal preferences
+on `chezmoi apply`. That tracks the profile itself without checking in the
+entire `com.apple.Terminal.plist`, and it also sets both the startup and
+default Terminal.app profile to `Atlas`.
+
 `~/org` is created by dotfiles, but your actual Org notes are not managed by
 chezmoi by default. The `.keep` file just makes sure the directory exists for
 captures and agenda files.
