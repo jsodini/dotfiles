@@ -46,10 +46,11 @@
         {
           "background": "#7cb342",
           "background_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}#d4a72c{{ end }}"
+            "{{ if and (not .Working.Changed) (.Staging.Changed) }}#00897b{{ end }}",
+            "{{ if .Working.Changed }}#d4a72c{{ end }}"
           ],
           "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}#1f2430{{ end }}"
+            "{{ if .Working.Changed }}#1f2430{{ end }}"
           ],
           "foreground": "#ffffff",
           "powerline_symbol": "\ue0b0",
